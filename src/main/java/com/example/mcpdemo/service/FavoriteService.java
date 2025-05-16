@@ -1,7 +1,7 @@
 package com.example.mcpdemo.service;
 
 import com.example.mcpdemo.pojo.Favorite;
-import com.example.mcpdemo.pojo.Video;
+import com.example.mcpdemo.pojo.FavoritedVideo;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,17 +22,16 @@ import java.util.List;
  * Classname: FavoriteService
  * Package: com.example.mcpdemo.service
  * Description:
- *
- * @Author: No_Ripple(吴波)
- * @Creat： - 10:27
+ * Author: No_Ripple(吴波)
+ * Creat： - 10:27
  */
 @Service
 public class FavoriteService {
 //    String upMid = "20923983";
-    List<Video> contents = new ArrayList<>();
+    List<FavoritedVideo> contents = new ArrayList<>();
     List<Favorite> favorites = new ArrayList<>();
     @Tool(name = "getFavoriteContents", description = "根据Bilibili收藏夹id和页号和页面大小获取收藏夹内容,每个元素包含视频标题,简介,链接。获取收藏夹内容时可以多次使用不同页号和页面大小调用以获取全部内容。页面大小限制为1到40.")
-    public List<Video> getFavoriteContents(String mediaId, Integer pageNum, Integer pageSize) {
+    public List<FavoritedVideo> getFavoriteContents(String mediaId, Integer pageNum, Integer pageSize) {
         String apiUrl = "https://api.bilibili.com/x/v3/fav/resource/list?" + "ps=" + pageSize + "&media_id=" + mediaId + "&pn=" + pageNum;
 
 
@@ -52,7 +51,7 @@ public class FavoriteService {
                         JsonArray mediasArray = dataObject.getAsJsonArray("medias");
                         for (JsonElement mediaElement : mediasArray) {
                             JsonObject element = mediaElement.getAsJsonObject();
-                            contents.add(new Video(
+                            contents.add(new FavoritedVideo(
                                     element.get("title").getAsString(),
                                     element.get("intro").getAsString(),
                                     "https://www.bilibili.com/video/" + element.get("bvid").getAsString()
